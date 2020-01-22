@@ -8,10 +8,16 @@
     font-size: 14px;
 }
 
+html, body {
+    height: 100%;
+}
+
 body {
     margin: 0;
+
     --color-text: #38201e;
     --color-bg: #fff2e1;
+    --color-circles: #FFFDF9;
     --color-link: #9b887f;
     --color-link-hover: #38201e;
     color: var(--color-text);
@@ -147,7 +153,7 @@ a:focus {
     display: flex;
     flex-direction: column;
     width: 100vw;
-    height: calc(100vh - 13rem);
+    height: 100vh;
     position: relative;
     justify-content: flex-start;
     align-items: center;
@@ -186,7 +192,7 @@ a:focus {
         height: 100vh;
         padding: 3rem;
         pointer-events: none;
-        grid-template-columns: 75% 25%;
+        grid-template-columns: 25%;
         grid-template-rows: auto auto auto;
         grid-template-areas: '... ...'
                             '... ...'
@@ -223,5 +229,17 @@ a:focus {
     .content {
         height: 100vh;
         justify-content: center;
+    }
+}
+
+
+.frame__title-wrap {
+    @include maxw(53em) {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        grid-template-areas:
+            'title'
+            'demos'
+            'links';
     }
 }

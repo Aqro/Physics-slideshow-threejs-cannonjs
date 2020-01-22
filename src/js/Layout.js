@@ -16,6 +16,8 @@ export default class Layout {
 
         this.W = window.innerWidth
         this.H = window.innerHeight
+
+        this.D = Math.ceil(Math.tan(APP.Store.ANGLE) * (Math.max(this.W, this.H) / 2))
     }
 
 }

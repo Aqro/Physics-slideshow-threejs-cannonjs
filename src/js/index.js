@@ -1,5 +1,5 @@
 import '../sass/styles.scss'
-import Stage from './Stage'
+import Scene from './Scene'
 import Layout from './Layout'
 
 const APP = window.APP || {}
@@ -11,8 +11,12 @@ const APP = window.APP || {}
 const initApp = () => {
     window.APP = APP
 
+    APP.Store = {
+        ANGLE: Math.PI / 6,
+    }
+
     APP.Layout = new Layout()
-    APP.Stage = new Stage()
+    APP.Scene = new Scene()
 }
 
 if (document.readyState === 'complete' || (document.readyState !== 'loading' && !document.documentElement.doScroll)) {

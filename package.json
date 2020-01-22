@@ -35,7 +35,12 @@
   },
   "dependencies": {
     "cannon": "^0.6.2",
-    "gsap": "^2.1.3",
+    "glslify": "^7.0.0",
+    "glslify-import": "^3.1.0",
+    "glslify-loader": "^2.0.0",
+    "gsap": "^3.0.5",
+    "lodash": "^4.17.15",
+    "simplex-noise": "^2.4.0",
     "three": "^0.109.0",
     "three-orbitcontrols": "^2.110.1"
   }

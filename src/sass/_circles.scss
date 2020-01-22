@@ -1,0 +1,39 @@
+
+/* CIRCLES
+---------------------------------------------------------------------------------------------------- */
+
+
+.slideshow__circles {
+    // position: fixed;
+    // top: 0;
+    // left: 0;
+    // width: 100%;
+    // height: 100vh;
+}
+
+
+.circle {
+    position: fixed;
+    z-index: -1;
+
+    border-radius: 50%;
+
+    &:nth-child(1) {
+        top: 19%;
+        left: 53%;
+        width: 35vmax;
+        height: 35vmax;
+
+        background-color: var(--color-circles);
+    }
+
+    &:nth-child(2) {
+        top: 35%;
+        left: 14%;
+
+        width: 26vmax;
+        height: 26vmax;
+
+        border: 100px solid var(--color-circles);
+    }
+}

@@ -19,6 +19,8 @@ $c-red: #ff3f31;
     font-weight: 100;
     line-height: .8;
     color: $c-red;
+
+    pointer-events: none;
 }
 
 
@@ -27,23 +29,49 @@ $c-red: #ff3f31;
 
 .split {
     display: inline-block;
+    overflow: hidden;
     position: fixed;
     top: 50%;
     left: 50%;
+    z-index: 5;
 
     &:nth-child(1) {
         transform: translate3d(-15.8vw, -41vh, 0);
+
+        @include maxw($bp-mobile) {
+            transform: translate3d(-37.8vw, -25vh, 0);
+        }
     }
 
     &:nth-child(2) {
+        z-index: 0;
+
         transform: translate3d(-22vw, 6vh, 0);
+
+        @include maxw($bp-mobile) {
+            transform: translate3d(-25vw, 10vh, 0);
+        }
     }
 
     &:nth-child(3) {
+        z-index: 0;
+
         transform: translate3d(13.4vw, -23.3vh, 0);
+
+        @include maxw($bp-mobile) {
+            transform: translate3d(22vw, -15.3vh, 0);
+        }
     }
 
     &:nth-child(4) {
         transform: translate3d(8vw, 25vh, 0);
+
+        @include maxw($bp-mobile) {
+            transform: translate3d(22vw, 18vh, 0);
+        }
     }
+}
+
+.split__text {
+    display: block;
 }

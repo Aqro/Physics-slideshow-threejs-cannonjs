@@ -15,7 +15,7 @@ module.exports = {
     resolve: {
         alias: {
             img: path.resolve(__dirname, 'src/img'),
-            js: path.resolve(__dirname, 'src/js'),
+            '@js': path.resolve(__dirname, 'src/js'),
             font: path.resolve(__dirname, 'src/fonts'),
         },
     },
@@ -85,6 +85,7 @@ module.exports = {
             host: 'localhost',
             port: 3000,
             server: { baseDir: '.' },
+            browser: 'google chrome',
         }),
     ],
 }
