@@ -52,14 +52,6 @@ export default class Cloth {
         this.stitches.forEach((stitch) => {
             stitch.velocity.set(0, 0, 0)
             stitch.position.copy(stitch.initPosition)
-
-            // gsap.to(stitch.position, {
-            //     duration: 0.5,
-            //     x: stitch.initPosition.x,
-            //     y: stitch.initPosition.y,
-            //     z: stitch.initPosition.z,
-            //     ease: 'power3.out',
-            // })
         })
     }
 
@@ -117,7 +109,6 @@ export default class Cloth {
                     this.isResting = false
                     this.stitches.forEach((s) => s.wakeUp())
                 }, delay)
-                // ev('windBlowing', { windBlowing: false })
             },
         })
     }
@@ -140,13 +131,9 @@ export default class Cloth {
 
 
     applyWind(wind) {
-        // APP.Scene.toggleGravity(!this.isResting)
-
         if (!wind.isBlowing) return
 
         const { position } = this.activeTile.geo.attributes
-        const { length } = wind.flowfield
-        const { count } = position
         const tempVec = new C.Vec3()
 
         for (let i = 0; i < position.count; i++) {
@@ -165,7 +152,6 @@ export default class Cloth {
 
     setStitches() {
         const { position } = this.activeTile.geo.attributes
-        const { heightSegments: cols, widthSegments: rows } = this.activeTile.geo.parameters
         const { width, height } = this.activeTile.rect
         const isInit = this.stitches === undefined
 
@@ -174,8 +160,6 @@ export default class Cloth {
         }
 
         for (let i = 0; i < position.count; i++) {
-            // const col = (i % (cols + 1))
-            // const row = Math.floor(i / (rows + 1))
             const pos = new C.Vec3(
                 position.getX(i) * width,
                 position.getY(i) * height,

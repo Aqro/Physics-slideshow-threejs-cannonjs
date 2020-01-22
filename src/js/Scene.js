@@ -23,7 +23,6 @@ export default class Scene {
         window.addEventListener('wheel', (e) => { this.onScroll(e) }, { passive: false })
 
         document.addEventListener('rotateCam', this.onDelta.bind(this))
-        // document.addEventListener('windBlowing', this.onWindChange.bind(this))
         document.addEventListener('toggleGravity', this.toggleGravity.bind(this))
     }
 
@@ -45,14 +44,13 @@ export default class Scene {
         this.addObjects()
 
         this.setRender()
-        // this.setupDebug()
     }
 
 
     /* Handlers
     --------------------------------------------------------- */
 
-    onScroll(e) {
+    static onScroll(e) {
         e.preventDefault()
     }
 

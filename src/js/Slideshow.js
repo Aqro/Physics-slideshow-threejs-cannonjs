@@ -60,8 +60,9 @@ export default class Slideshow {
         // this.$els.el.addEventListener('mouseenter', this.onEnter.bind(this))
         // this.$els.el.addEventListener('mouseleave', this.onLeave.bind(this))
 
-        document.body.addEventListener('mousedown', this.onEnter.bind(this))
-        document.body.addEventListener('mouseup', this.onLeave.bind(this))
+        document.body.addEventListener('mousedown', this.onDown.bind(this))
+        document.body.addEventListener('mousemove', this.onMove.bind(this))
+        document.body.addEventListener('mouseup', this.onUp.bind(this))
 
         document.body.addEventListener('touchstart', this.onDown.bind(this))
         document.body.addEventListener('touchmove', this.onMove.bind(this))
@@ -79,7 +80,7 @@ export default class Slideshow {
 
         state.mb = getStyle(slides[slides.length - 1], 'margin-bottom')
 
-        // Set bounding
+        // Set bounds
         state.max = -((slides[slides.length - 1].getBoundingClientRect().bottom) - wrapHeight - wrapDiff)
         state.min = 0
 
@@ -106,8 +107,6 @@ export default class Slideshow {
 
         if (resizing) return
 
-        // gsap.killTweensOf(this.states.target)
-
         this.hideTexts()
         if (this.timerWind) clearTimeout(this.timerWind)
 
@@ -128,25 +127,10 @@ export default class Slideshow {
         this.onScroll({ deltaY: 0 }, true)
     }
 
-    onEnter() {
-        if (APP.Layout.isMobile) return
-        this.states.flags.hovering = true
-
-        ev('windBlowing', { windBlowing: false })
-        ev('toggleGravity', { shouldEverythingFalls: true })
-    }
-
-    onLeave() {
-        if (APP.Layout.isMobile) return
-        this.states.flags.hovering = false
-
-        ev('windBlowing', { windBlowing: true })
-        ev('toggleGravity', { shouldEverythingFalls: true })
-    }
-
 
     onDown(e) {
         this.states.flags.scrolling = true
+        this.states.flags.dragging  = true
         this.startY = getPos(e).y
 
         ev('stormIsCalmingDown')
@@ -157,7 +141,7 @@ export default class Slideshow {
     }
 
     onMove(e) {
-        if (!this.states.flags.scrolling) return
+        if (!this.states.flags.dragging) return
 
         ev('stormIsCalmingDown')
         this.hideTexts()
@@ -171,7 +155,8 @@ export default class Slideshow {
     }
 
     onUp() {
-        this.states.off = this.states.target
+        this.states.off            = this.states.target
+        this.states.flags.dragging = false
 
         ev('stormIsCalmingDown')
 
@@ -219,7 +204,6 @@ export default class Slideshow {
     }
 
     revealTexts() {
-        // if (gsap.isTweening(this.$els.split)) return
         const title = this.states.activeSlide.title.toUpperCase()
 
         const newTitle = title.split(' ').flatMap((word) => [
@@ -227,13 +211,9 @@ export default class Slideshow {
             word.substring(Math.ceil(word.length / 2), word.length),
         ])
 
-        gsap.killTweensOf(this.$els.split)
-
         this.$els.split.forEach((s, i) => { s.innerText = newTitle[i] })
 
-        gsap.fromTo(this.$els.split, {
-            y: '100%',
-        }, {
+        gsap.to(this.$els.split, {
             duration : 0.8,
             y        : 0,
             ease     : 'power3.out',
@@ -242,7 +222,6 @@ export default class Slideshow {
                 axis    : 'x',
                 amount  : 0.16,
             },
-            onStart: () => { this.states.flags.textTransition = true },
             onComplete: () => { this.states.flags.textTransition = false },
         })
     }
