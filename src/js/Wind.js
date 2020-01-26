@@ -26,7 +26,7 @@ export default class Wind {
             subRows: Math.floor((this.activeTile.geo.parameters.heightSegments + 1) / subdivision),
         }
 
-        this.flowfield = new Array(this.sizes.subCols * this.sizes.subRows).fill(0)
+        this.flowfield = new Array(this.sizes.subCols * this.sizes.subRows)
 
         this.isBlowing = false
 
