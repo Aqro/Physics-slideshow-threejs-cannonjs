@@ -126,7 +126,6 @@ export default class Cloth {
         )
 
         this.world.addConstraint(c)
-        c.collideConnected = true
     }
 
 
