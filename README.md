@@ -1,10 +1,10 @@
-# Physics menu with Three.js and Cannon.js
+# Physics-based 3D cloth using Three.js and Cannon.js
 
-Learn the basics of physics engine in WebGL with [Cannon.js](https://github.com/schteppe/cannon.js) and render it with [Three.js](https://threejs.org/). by [Arno Di Nunzio](https://twitter.com/aqro)
+Learn how to create a physics-based 3D cloth with [Cannon.js](https://github.com/schteppe/cannon.js) and [Three.js](https://threejs.org/) and use simplex noise to create a wind effect. By [Arno Di Nunzio](https://twitter.com/aqro)
 
-![Physics in WebGL with cannonjs and threejs](https://tympanus.net/codrops/wp-content/uploads/2019/12/thumb-tutorial-physics-cannonjs.jpg)
+![Physics-based 3D cloth with cannon.js and three.js](https://tympanus.net/codrops/wp-content/uploads/2020/01/codrops-cover-cloth-physics-three.jpg)
 
-[Article on Codrops](https://tympanus.net/codrops/?p=45191)
+[Article on Codrops](https://tympanus.net/codrops/?p=46823)
 
 [Demo](http://tympanus.net/Development/.../)
 
@@ -26,6 +26,7 @@ npm run watch
 
 ## Credits
 
+- Slider based on [Jesper Landberg's](https://twitter.com/Jesper_Landberg) [slider](https://codepen.io/ReGGae/pen/povjKxV)
 - [Three.js](https://threejs.org/)
 - [Cannon.js](https://github.com/schteppe/cannon.js)
 
