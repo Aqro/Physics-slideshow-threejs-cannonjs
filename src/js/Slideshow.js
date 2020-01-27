@@ -57,11 +57,6 @@ export default class Slideshow {
         document.addEventListener('wheel', this.onScroll.bind(this))
         document.addEventListener('mouseleave', this.onUp.bind(this))
 
-        window.addEventListener('resize', this.onResize.bind(this))
-
-        // this.$els.el.addEventListener('mouseenter', this.onEnter.bind(this))
-        // this.$els.el.addEventListener('mouseleave', this.onLeave.bind(this))
-
         document.body.addEventListener('mousedown', this.onDown.bind(this))
         document.body.addEventListener('mousemove', this.onMove.bind(this))
         document.body.addEventListener('mouseup', this.onUp.bind(this))
@@ -74,17 +69,8 @@ export default class Slideshow {
 
     setup() {
         const state = this.states
-        const { slides, el } = this.$els
-        const {
-            height: wrapHeight,
-            top: wrapDiff,
-        } = el.getBoundingClientRect()
 
-        state.mb = getStyle(slides[slides.length - 1], 'margin-bottom')
-
-        // Set bounds
-        state.max = -((slides[slides.length - 1].getBoundingClientRect().bottom) - wrapHeight - wrapDiff)
-        state.min = 0
+        this.getSizes()
 
         this.slides = this.getSlides()
 
@@ -123,10 +109,6 @@ export default class Slideshow {
         }
 
         this.states.target = this.states.off
-    }
-
-    onResize() {
-        this.onScroll({ deltaY: 0 }, true)
     }
 
 
@@ -293,6 +275,21 @@ export default class Slideshow {
         })
     }
 
+
+    getSizes() {
+        const state = this.states
+        const { slides, el } = this.$els
+        const {
+            height: wrapHeight,
+            top: wrapDiff,
+        } = el.getBoundingClientRect()
+
+        state.mb = getStyle(slides[slides.length - 1], 'margin-bottom')
+
+        // Set bounds
+        state.max = -((slides[slides.length - 1].getBoundingClientRect().bottom) - wrapHeight - wrapDiff)
+        state.min = 0
+    }
 
 
 

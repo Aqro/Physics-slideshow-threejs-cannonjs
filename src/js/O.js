@@ -6,11 +6,6 @@ export default class O extends Object3D {
         this.el = el
 
         this.resize()
-        this.bindEvents()
-    }
-
-    bindEvents() {
-        window.addEventListener('resize', this.resize.bind(this))
     }
 
     resize() {

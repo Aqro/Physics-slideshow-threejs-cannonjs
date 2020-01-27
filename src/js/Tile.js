@@ -47,20 +47,11 @@ export default class Tile extends O {
 
     bindEvents() {
         super.bindEvents()
-        window.addEventListener('resize', this.onResize.bind(this))
         document.addEventListener('rotateCam', this.onSquitch.bind(this))
     }
 
     /* Handlers
     --------------------------------------------------------- */
-
-    onResize() {
-        const { width, height } = this.rect
-
-        this.mesh.scale.set(width, height, 1)
-        this.mat.uniforms.uMeshSize.value = [width, height]
-        this.mat.uniforms.uScale.value    = Math.max(width, height) / Math.hypot(width, height)
-    }
 
     onSquitch({ detail: { delta } }) {
         const { width, height } = this.rect
