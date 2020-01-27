@@ -55,6 +55,8 @@ export default class Slideshow {
 
     bindEvents() {
         document.addEventListener('wheel', this.onScroll.bind(this))
+        document.addEventListener('mouseleave', this.onUp.bind(this))
+
         window.addEventListener('resize', this.onResize.bind(this))
 
         // this.$els.el.addEventListener('mouseenter', this.onEnter.bind(this))

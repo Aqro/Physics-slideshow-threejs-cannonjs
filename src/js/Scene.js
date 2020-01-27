@@ -50,7 +50,7 @@ export default class Scene {
     /* Handlers
     --------------------------------------------------------- */
 
-    static onScroll(e) {
+    onScroll(e) {
         e.preventDefault()
     }
 
