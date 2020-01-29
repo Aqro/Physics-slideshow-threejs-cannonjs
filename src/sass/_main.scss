@@ -2,8 +2,8 @@
 /* Imports & variables
 --------------------------------------------------------- */
 
-@import url('https://fonts.googleapis.com/css?family=PT+Mono&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Dorsa&display=swap');
+// @import url('https://fonts.googleapis.com/css?family=PT+Mono&display=swap');
+// @import url('https://fonts.googleapis.com/css?family=Dorsa&display=swap');
 
 
 
@@ -40,4 +40,8 @@ body {
         -webkit-user-select: none; /* Chrome, Safari, and Opera */
         -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
     }
+}
+
+.frame {
+    user-select: none;
 }

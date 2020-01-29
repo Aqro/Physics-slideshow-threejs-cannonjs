@@ -136,8 +136,6 @@ export default class Scene {
     --------------------------------------------------------- */
 
     render() {
-        if (!document.hasFocus()) return
-
         this.updatePhysics()
         this.slideshow.render()
         this.renderer.render(this.scene, this.camera)

@@ -55,15 +55,16 @@ export default class Slideshow {
 
     bindEvents() {
         document.addEventListener('wheel', this.onScroll.bind(this))
-        document.addEventListener('mouseleave', this.onUp.bind(this))
+        document.addEventListener('mouseleave', this.onUp.bind(this, true))
+        document.addEventListener('blur', this.onUp.bind(this))
 
-        document.body.addEventListener('mousedown', this.onDown.bind(this))
-        document.body.addEventListener('mousemove', this.onMove.bind(this))
-        document.body.addEventListener('mouseup', this.onUp.bind(this))
+        document.addEventListener('mousedown', this.onDown.bind(this))
+        document.addEventListener('mousemove', this.onMove.bind(this))
+        document.addEventListener('mouseup', this.onUp.bind(this))
 
-        document.body.addEventListener('touchstart', this.onDown.bind(this))
-        document.body.addEventListener('touchmove', this.onMove.bind(this))
-        document.body.addEventListener('touchend', this.onUp.bind(this))
+        document.addEventListener('touchstart', this.onDown.bind(this))
+        document.addEventListener('touchmove', this.onMove.bind(this))
+        document.addEventListener('touchend', this.onUp.bind(this))
     }
 
 
@@ -93,8 +94,6 @@ export default class Slideshow {
 
         flags.scrolling = true
 
-        if (resizing) return
-
         this.hideTexts()
         if (this.timerWind) clearTimeout(this.timerWind)
 
@@ -113,7 +112,7 @@ export default class Slideshow {
 
 
     onDown(e) {
-        this.states.flags.scrolling = true
+        // this.states.flags.scrolling = true
         this.states.flags.dragging  = true
         this.startY = getPos(e).y
 
@@ -138,13 +137,13 @@ export default class Slideshow {
         if (this.timerWind) clearTimeout(this.timerWind)
     }
 
-    onUp() {
+    onUp(isLeavingWindow = false) {
         this.states.off            = this.states.target
         this.states.flags.dragging = false
 
-        ev('stormIsCalmingDown')
+        if (!isLeavingWindow) ev('stormIsCalmingDown')
 
-        this.restartTimerAutoScroll()
+        this.restartTimerAutoScroll(isLeavingWindow)
     }
 
 
@@ -157,7 +156,7 @@ export default class Slideshow {
         this.cloth.update()
         this.cloth.applyWind(this.wind)
 
-        if (!this.states.flags.scrolling && !this.states.flags.autoscroll) return
+        // if (!this.states.flags.scrolling && !this.states.flags.autoscroll) return
 
         this.draw()
     }
@@ -300,6 +299,8 @@ export default class Slideshow {
         const state = this.states
         const target = state.currentRounded - slide.tile.position.y
 
+        gsap.killTweensOf(state)
+
         gsap.to(state, {
             target,
             duration : APP.Layout.isMobile ? 0.2 : 0.4,
@@ -393,21 +394,19 @@ export default class Slideshow {
         clearTimeout(this.timerAutoScroll)
 
         this.timer = setTimeout(() => {
-            if (!document.hasFocus()) return
-
             this.states.flags.scrolling = false
             this.slideTo(this.getClosest())
         }, 1000)
     }
 
-    restartTimerAutoScroll() {
-        const delay = APP.Layout.isMobile ? 1000 : 100
+    restartTimerAutoScroll(instant) {
+        // eslint-disable-next-line no-nested-ternary
+        const delay = instant ? 0 : APP.Layout.isMobile ? 1000 : 100
         clearTimeout(this.timer)
         clearTimeout(this.timerAutoScroll)
 
         this.timerAutoScroll = setTimeout(() => {
-            if (!document.hasFocus()) return
-
+            this.states.flags.scrolling = false
             this.slideTo(this.getClosest())
         }, delay)
     }
