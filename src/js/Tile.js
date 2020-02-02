@@ -22,11 +22,8 @@ export default class Tile extends O {
         const { width, height } = this.rect
 
         this.scene = scene
-
         this.geo = new PlaneBufferGeometry(1, 1, cols, rows)
-
         this.mat = new CoverMaterial({ meshSize: this.rect })
-
         this.img = this.el.querySelector('img')
 
         this.texture = loader.load(this.img.src, (texture) => {
@@ -38,8 +35,7 @@ export default class Tile extends O {
         this.mesh.scale.set(width, height, 1)
 
         this.mat.uniforms.uScale.value = Math.max(width, height) / Math.hypot(width, height)
-
-        this.geo.attributes.initPos = this.geo.attributes.position.clone()
+        this.geo.attributes.initPos    = this.geo.attributes.position.clone()
 
         this.add(this.mesh)
         this.scene.add(this)

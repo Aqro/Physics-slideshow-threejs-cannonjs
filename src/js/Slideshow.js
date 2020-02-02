@@ -21,7 +21,7 @@ export default class Slideshow {
         }
 
         this.opts = {
-            speed: APP.Layout.isMobile ? 1.5 : 1,
+            speed: 1.5,
             ease: 0.065,
             threshold: 50,
         }
@@ -41,11 +41,13 @@ export default class Slideshow {
             flags   : {
                 hovering      : false,
                 dragging      : false,
-                scrolling     : false,
-                autoscroll    : false,
+                // scrolling     : false,
+                // autoscroll    : false,
                 textTransition: false,
             },
         }
+
+        this.hideTextTween = null
 
         this.setup()
 
@@ -56,15 +58,14 @@ export default class Slideshow {
     bindEvents() {
         document.addEventListener('wheel', this.onScroll.bind(this))
         document.addEventListener('mouseleave', this.onUp.bind(this, true))
-        document.addEventListener('blur', this.onUp.bind(this))
 
         document.addEventListener('mousedown', this.onDown.bind(this))
         document.addEventListener('mousemove', this.onMove.bind(this))
-        document.addEventListener('mouseup', this.onUp.bind(this))
+        document.addEventListener('mouseup', this.onUp.bind(this, false))
 
         document.addEventListener('touchstart', this.onDown.bind(this))
         document.addEventListener('touchmove', this.onMove.bind(this))
-        document.addEventListener('touchend', this.onUp.bind(this))
+        document.addEventListener('touchend', this.onUp.bind(this, false))
     }
 
 
@@ -86,41 +87,30 @@ export default class Slideshow {
     /* Handlers
     --------------------------------------------------------- */
 
-    onScroll({ deltaY }, resizing = false) {
-        const { flags } = this.states
+    onScroll({ deltaY }) {
+        const { diff } = this.states
 
         const delta = gsap.utils.clamp(-100, 100, deltaY)
         this.states.off += delta * this.opts.speed
 
-        flags.scrolling = true
+        this.states.target = this.states.off
 
         this.hideTexts()
-        if (this.timerWind) clearTimeout(this.timerWind)
 
         ev('stormIsCalmingDown')
 
-        if (Math.abs(delta) >= 1) {
-            this.restartTimer()
-        }
+        if (Math.abs(diff) >= 0.01) { this.restartTimer() }
+        if (Math.abs(diff) < 0.1) { this.restartTimerAutoScroll() }
 
-        if (Math.abs(delta) <= 50) {
-            this.restartTimerAutoScroll()
-        }
-
-        this.states.target = this.states.off
+        if (this.timerWind) clearTimeout(this.timerWind)
     }
 
 
     onDown(e) {
-        // this.states.flags.scrolling = true
         this.states.flags.dragging  = true
         this.startY = getPos(e).y
 
         ev('stormIsCalmingDown')
-        ev('windBlowing', { windBlowing: false })
-        ev('toggleGravity', { shouldEverythingFalls: false })
-
-        if (this.timerWind) clearTimeout(this.timerWind)
     }
 
     onMove(e) {
@@ -138,12 +128,14 @@ export default class Slideshow {
     }
 
     onUp(isLeavingWindow = false) {
+        const instant = !APP.Layout.isDesktop ? false : isLeavingWindow
+
         this.states.off            = this.states.target
         this.states.flags.dragging = false
 
         if (!isLeavingWindow) ev('stormIsCalmingDown')
 
-        this.restartTimerAutoScroll(isLeavingWindow)
+        this.restartTimerAutoScroll(instant)
     }
 
 
@@ -156,8 +148,6 @@ export default class Slideshow {
         this.cloth.update()
         this.cloth.applyWind(this.wind)
 
-        // if (!this.states.flags.scrolling && !this.states.flags.autoscroll) return
-
         this.draw()
     }
 
@@ -169,11 +159,13 @@ export default class Slideshow {
 
 
     hideTexts() {
-        if (this.states.flags.textTransition) return
+        const duration = !APP.Layout.isDesktop ? 0.2 : 0.4
 
-        const duration = APP.Layout.isMobile ? 0.2 : 0.4
+        if (this.hideTextTween && this.hideTextTween.isActive()) return
 
-        gsap.to(this.$els.split, {
+        gsap.killTweensOf(this.$els.split)
+
+        this.hideTextTween = gsap.to(this.$els.split, {
             duration,
             y: '100%',
             ease: 'power3.in',
@@ -183,6 +175,7 @@ export default class Slideshow {
                 amount: 0.16,
             },
             onStart: () => { this.states.flags.textTransition = true },
+            onComplete: () => { this.states.flags.textTransition = false },
         })
     }
 
@@ -194,8 +187,6 @@ export default class Slideshow {
             word.substring(Math.ceil(word.length / 2), word.length),
         ])
 
-        this.$els.split.forEach((s, i) => { s.innerText = newTitle[i] })
-
         gsap.to(this.$els.split, {
             duration : 0.8,
             y        : 0,
@@ -205,7 +196,9 @@ export default class Slideshow {
                 axis    : 'x',
                 amount  : 0.16,
             },
-            onComplete: () => { this.states.flags.textTransition = false },
+            onStart: () => {
+                this.$els.split.forEach((s, i) => { s.innerText = newTitle[i] })
+            },
         })
     }
 
@@ -263,14 +256,14 @@ export default class Slideshow {
     handleAlpha() {
         const center = new Vector3()
         const diag   = Math.hypot(APP.Layout.W, APP.Layout.H) / 2
-        const off    = APP.Layout.isMobile ? 50 : 200
+        const off    = !APP.Layout.isDesktop ? 50 : 200
 
 
         this.slides.forEach((slide) => {
             const dist    = slide.tile.position.distanceTo(center)
-            const clamped = 1 - gsap.utils.clamp(0, diag - off, dist) / diag
+            const value = 1 - gsap.utils.clamp(0, diag - off, dist) / diag
 
-            slide.tile.mat.uniforms.uAlpha.value = clamped
+            slide.tile.mat.uniforms.uAlpha.value = value
         })
     }
 
@@ -303,14 +296,10 @@ export default class Slideshow {
 
         gsap.to(state, {
             target,
-            duration : APP.Layout.isMobile ? 0.2 : 0.4,
+            duration : !APP.Layout.isDesktop ? 0.2 : 0.4,
             ease     : 'strong.inout',
-            onStart  : () => {
-                state.flags.autoscroll = true
-            },
 
             onComplete: () => {
-                state.flags.autoscroll = false
                 state.off = state.target
 
                 if (slide !== state.activeSlide) {
@@ -333,7 +322,7 @@ export default class Slideshow {
         const { H, D } = APP.Layout
         const state    = this.states
 
-        const margins = {
+        const sizes = {
             max: APP.Layout.isMobile ? 0.8 : 0.83,
             min: APP.Layout.isMobile ? 0.2 : 0.17,
         }
@@ -350,8 +339,8 @@ export default class Slideshow {
             const tile = new Tile()
             tile.init(s, { scene: this.scene })
 
-            const bValue = (H) * margins.max + offsets.max
-            const tValue = (H) * margins.min + offsets.min
+            const maxValue = (H) * sizes.max + offsets.max
+            const minValue = (H) * sizes.min + offsets.min
 
 
             return {
@@ -362,8 +351,8 @@ export default class Slideshow {
                 bottom,
                 height,
                 title: s.querySelector('h3').innerText,
-                min: top < (H) ? state.min + (bValue) : state.min - (tValue),
-                max: top > (H) ? state.max - (bValue) : state.max + (tValue),
+                min: top < (H) ? state.min + (maxValue) : state.min - (minValue),
+                max: top > (H) ? state.max - (maxValue) : state.max + (minValue),
                 out: false,
             }
         })
@@ -394,19 +383,17 @@ export default class Slideshow {
         clearTimeout(this.timerAutoScroll)
 
         this.timer = setTimeout(() => {
-            this.states.flags.scrolling = false
             this.slideTo(this.getClosest())
         }, 1000)
     }
 
     restartTimerAutoScroll(instant) {
         // eslint-disable-next-line no-nested-ternary
-        const delay = instant ? 0 : APP.Layout.isMobile ? 1000 : 100
+        const delay = instant ? 0 : !APP.Layout.isDesktop ? 1000 : 100
         clearTimeout(this.timer)
         clearTimeout(this.timerAutoScroll)
 
         this.timerAutoScroll = setTimeout(() => {
-            this.states.flags.scrolling = false
             this.slideTo(this.getClosest())
         }, delay)
     }

@@ -8,7 +8,7 @@ export default class Cloth {
     constructor(tile, world) {
         this.activeTile = tile
         this.world = world
-        this.totalMass = APP.Layout.isMobile ? 3 : 1
+        this.totalMass = APP.Layout.isMobile ? 3 : 2
 
         const { widthSegments, heightSegments } = this.activeTile.geo.parameters
 
@@ -16,8 +16,6 @@ export default class Cloth {
 
         this.stitchesShape = new C.Particle()
         this.tempV         = new Vector3()
-        this.isResting     = false
-        this.isSlowingDown = false
 
         this.setStitches()
 
@@ -36,7 +34,11 @@ export default class Cloth {
     --------------------------------------------------------- */
 
     onToggleWind({ detail: { windBlowing } }) {
-        this.isSlowingDown = windBlowing
+        if (windBlowing) {
+            this.stitches.forEach((s) => s.wakeUp())
+        } else {
+            this.stitches.forEach((s) => s.sleep())
+        }
     }
 
 
@@ -44,7 +46,6 @@ export default class Cloth {
     --------------------------------------------------------- */
 
     update() {
-        this.slowDown()
         this.render()
     }
 
@@ -52,14 +53,6 @@ export default class Cloth {
         this.stitches.forEach((stitch) => {
             stitch.velocity.set(0, 0, 0)
             stitch.position.copy(stitch.initPosition)
-        })
-    }
-
-    slowDown() {
-        if (!this.isSlowingDown) return
-
-        this.stitches.forEach((stitch) => {
-            stitch.velocity.scale(0)
         })
     }
 
@@ -77,11 +70,9 @@ export default class Cloth {
     }
 
     rest() {
-        if (this.isResting) return
-
         const positions = this.stitches.map((s) => s.position)
-        const { heightSegments: cols, widthSegments: rows } = this.activeTile.geo.parameters
 
+        this.stitches.forEach((s) => s.sleep())
 
         gsap.to(positions, {
             duration: APP.Layout.isMobile ? 0.4 : 0.8,
@@ -89,27 +80,6 @@ export default class Cloth {
             y: (i) => this.initPositions[i].y,
             z: (i) => this.initPositions[i].z,
             ease: 'power2.out',
-            stagger: {
-                grid: [cols, rows],
-                axis: 'y',
-                amount: 0.1,
-            },
-
-            onStart: () => {
-                this.isResting = true
-                this.stitches.forEach((s) => s.sleep())
-                if (this.restTimer) {
-                    clearTimeout(this.restTimer)
-                }
-            },
-
-            onComplete: () => {
-                const delay = APP.Layout.isMobile ? 200 : 1000
-                this.restTimer = setTimeout(() => {
-                    this.isResting = false
-                    this.stitches.forEach((s) => s.wakeUp())
-                }, delay)
-            },
         })
     }
 
@@ -152,11 +122,8 @@ export default class Cloth {
     setStitches() {
         const { position } = this.activeTile.geo.attributes
         const { width, height } = this.activeTile.rect
-        const isInit = this.stitches === undefined
 
-        if (isInit) {
-            this.stitches = []
-        }
+        this.stitches = []
 
         for (let i = 0; i < position.count; i++) {
             const pos = new C.Vec3(
@@ -165,20 +132,16 @@ export default class Cloth {
                 position.getZ(i),
             )
 
-            if (isInit) {
-                const stitch = new C.Body({
-                    mass: this.mass,
-                    linearDamping: 0.8,
-                    position: pos,
-                    shape: this.stitchesShape,
-                })
+            const stitch = new C.Body({
+                mass: this.mass,
+                linearDamping: 0.8,
+                position: pos,
+                shape: this.stitchesShape,
+            })
 
-                this.stitches.push(stitch)
+            this.stitches.push(stitch)
 
-                this.world.addBody(stitch)
-            } else {
-                this.stitches[i].position.set(pos.x, pos.y, pos.z)
-            }
+            this.world.addBody(stitch)
         }
 
         this.initPositions = this.stitches.map((s) => s.initPosition)

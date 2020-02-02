@@ -38,6 +38,10 @@ $c-red: #ff3f31;
     &:nth-child(1) {
         transform: translate3d(-15.8vw, -41vh, 0);
 
+        @include maxw($bp-tablet) {
+            transform: translate3d(-34.8vw, -34vh, 0);
+        }
+
         @include maxw($bp-mobile) {
             transform: translate3d(-37.8vw, -25vh, 0);
         }
@@ -47,6 +51,10 @@ $c-red: #ff3f31;
         z-index: 0;
 
         transform: translate3d(-22vw, 6vh, 0);
+
+        @include maxw($bp-tablet) {
+            transform: translate3d(-28vw, 15vh, 0);
+        }
 
         @include maxw($bp-mobile) {
             transform: translate3d(-25vw, 10vh, 0);
@@ -58,6 +66,10 @@ $c-red: #ff3f31;
 
         transform: translate3d(13.4vw, -23.3vh, 0);
 
+        @include maxw($bp-tablet) {
+            transform: translate3d(23.4vw, -25.3vh, 0);
+        }
+
         @include maxw($bp-mobile) {
             transform: translate3d(22vw, -15.3vh, 0);
         }
@@ -65,6 +77,10 @@ $c-red: #ff3f31;
 
     &:nth-child(4) {
         transform: translate3d(8vw, 25vh, 0);
+
+        @include maxw($bp-tablet) {
+            transform: translate3d(22vw, 20vh, 0);
+        }
 
         @include maxw($bp-mobile) {
             transform: translate3d(22vw, 18vh, 0);

@@ -142,7 +142,7 @@ export default class Scene {
     }
 
     updatePhysics() {
-        this.world.step(1 / 60)
+        this.world.step(1 / 50)
     }
 
 }

@@ -12,7 +12,9 @@ export default class Layout {
     }
 
     onResize() {
-        this.isMobile  = window.matchMedia('(max-width: 767px)').matches
+        this.isMobile   = window.matchMedia('(max-width: 767px)').matches
+        this.isTablet   = window.matchMedia('(max-width: 1111px)').matches
+        this.isDesktop  = !this.isMobile && !this.isTablet
 
         this.W = window.innerWidth
         this.H = window.innerHeight

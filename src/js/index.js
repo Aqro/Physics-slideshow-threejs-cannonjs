@@ -12,7 +12,8 @@ const initApp = () => {
     window.APP = APP
 
     APP.Store = {
-        ANGLE: Math.PI / 6,
+        ANGLE           : Math.PI / 6,
+        isTransitioning : false,
     }
 
     APP.Layout = new Layout()

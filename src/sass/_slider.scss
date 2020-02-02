@@ -18,11 +18,12 @@
 }
 
 .slideshow__inner {
-    width: 40vw;
-    max-width: 456px;
+    width: 100%;
+    max-width: 520px;
 
-    @include maxw($bp-mobile) {
-        width: 100%;
+    @include minw($bp-tablet) {
+        width: 40vw;
+        max-width: 456px;
     }
 }
 
@@ -31,7 +32,7 @@
     overflow: hidden;
     width: 100%;
     height: 100%;
-    margin-bottom: 75px;
+    margin-bottom: 15%;
 
     h3 {
         opacity: 0;
@@ -51,5 +52,9 @@
         user-select: none;
 
         pointer-events: none;
+    }
+
+    @include maxw($bp-mobile) {
+        margin-bottom: 75px;
     }
 }
