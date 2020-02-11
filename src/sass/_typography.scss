@@ -1,25 +1,21 @@
 
 /* TYPOGRAPHY
 ---------------------------------------------------------------------------------------------------- */
-
-/* Colors
---------------------------------------------------------- */
-
-$c-red: #ff3f31;
-
-
-
-
 /* Styles
 --------------------------------------------------------- */
+.title-wrap {
+    position: relative;
+    z-index: 100;
+    //mix-blend-mode: difference;
+}
 
 .title {
-    font-family: 'Dorsa', sans-serif;
-    font-size: 24vmin;
-    font-weight: 100;
-    line-height: .8;
-    color: $c-red;
-
+    font-family: quiche-sans, sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 11vw;
+    line-height: 0.9;
+    color: var(--color-title);
     pointer-events: none;
 }
 
@@ -30,61 +26,13 @@ $c-red: #ff3f31;
 .split {
     display: inline-block;
     overflow: hidden;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    z-index: 5;
 
     &:nth-child(1) {
-        transform: translate3d(-15.8vw, -41vh, 0);
-
-        @include maxw($bp-tablet) {
-            transform: translate3d(-34.8vw, -34vh, 0);
-        }
-
-        @include maxw($bp-mobile) {
-            transform: translate3d(-37.8vw, -25vh, 0);
-        }
+        transform: translate3d(1ch, -50%, 0);
     }
 
     &:nth-child(2) {
-        z-index: 0;
-
-        transform: translate3d(-22vw, 6vh, 0);
-
-        @include maxw($bp-tablet) {
-            transform: translate3d(-28vw, 15vh, 0);
-        }
-
-        @include maxw($bp-mobile) {
-            transform: translate3d(-25vw, 10vh, 0);
-        }
-    }
-
-    &:nth-child(3) {
-        z-index: 0;
-
-        transform: translate3d(13.4vw, -23.3vh, 0);
-
-        @include maxw($bp-tablet) {
-            transform: translate3d(23.4vw, -25.3vh, 0);
-        }
-
-        @include maxw($bp-mobile) {
-            transform: translate3d(22vw, -15.3vh, 0);
-        }
-    }
-
-    &:nth-child(4) {
-        transform: translate3d(8vw, 25vh, 0);
-
-        @include maxw($bp-tablet) {
-            transform: translate3d(22vw, 20vh, 0);
-        }
-
-        @include maxw($bp-mobile) {
-            transform: translate3d(22vw, 18vh, 0);
-        }
+        transform: translate3d(-1ch, 50%, 0);
     }
 }
 

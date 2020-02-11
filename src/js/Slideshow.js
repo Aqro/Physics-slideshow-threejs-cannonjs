@@ -182,10 +182,11 @@ export default class Slideshow {
     revealTexts() {
         const title = this.states.activeSlide.title.toUpperCase()
 
-        const newTitle = title.split(' ').flatMap((word) => [
+        const newTitle = title.split(' ')
+        /*.flatMap((word) => [
             word.substring(0, Math.ceil(word.length / 2)),
             word.substring(Math.ceil(word.length / 2), word.length),
-        ])
+        ])*/
 
         gsap.to(this.$els.split, {
             duration : 0.8,

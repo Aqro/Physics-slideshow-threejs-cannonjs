@@ -8,22 +8,22 @@
         <meta name="keywords" content="" />
         <meta name="author" content="Arno Di Nunzio" />
         <link rel="shortcut icon" href="favicon.ico">
+        <link rel="stylesheet" href="https://use.typekit.net/dtk0eye.css">
         <link rel="stylesheet" type="text/css" href="dist/app.css" />
         <script>document.documentElement.className="js";var supportsCssVars=function(){var e,t=document.createElement("style");return t.innerHTML="root: { --tmp-var: bold; }",document.head.appendChild(t),e=!!(window.CSS&&window.CSS.supports&&window.CSS.supports("font-weight","var(--tmp-var)")),t.parentNode.removeChild(t),e};supportsCssVars()||alert("Please view this demo in a modern browser that supports CSS Variables.");</script>
-        <!--script src="//tympanus.net/codrops/adpacks/analytics.js"></script-->
         <script src="dist/app.js"></script>
     </head>
     <body>
         <main>
             <div class="frame">
                 <div class="frame__title-wrap">
-                    <h1 class="frame__title">Physics 3D cloth</h1>
+                    <h1 class="frame__title">3D Cloth Slideshow</h1>
                     <p class="frame__tagline">with <a href="https://threejs.org" target="_blank" rel="noopener">Three.js</a> & <a href="https://github.com/schteppe/cannon.js" rel="noopener" target="_blank">Cannon.js</a></p>
-                    <div class="frame__links">
-                        <a href="">Previous Demo</a>
-                        <a href="">Article</a>
-                        <a href="">GitHub</a>
-                    </div>
+                </div>
+                <div class="frame__links">
+                    <a href="https://tympanus.net/Tutorials/CutoutCollageLayout/">Previous Demo</a>
+                    <a href="https://tympanus.net/codrops/?p=46823">Article</a>
+                    <a href="https://github.com/Aqro/Physics-slideshow-threejs-cannonjs">GitHub</a>
                 </div>
             </div>
             <div class="content">
@@ -32,51 +32,44 @@
                     <ol class="slideshow__inner | js-slideshow">
                         <li class="slide | js-slide">
                             <img src="dist/img/portraits/01.jpg" crossorigin="anonymous" draggable="false">
-                            <h3>Urban style</h3>
+                            <h3>Urban jungle</h3>
                         </li>
                         <li class="slide | js-slide">
                             <img src="dist/img/portraits/02.jpg" crossorigin="anonymous" draggable="false">
-                            <h3>Tokyo Rules</h3>
+                            <h3>Tokyo Fresh</h3>
                         </li>
                         <li class="slide | js-slide">
                             <img src="dist/img/portraits/03.jpg" crossorigin="anonymous" draggable="false">
-                            <h3>Under ground</h3>
+                            <h3>Middle ninty</h3>
                         </li>
                         <li class="slide | js-slide">
                             <img src="dist/img/portraits/04.jpg" crossorigin="anonymous" draggable="false">
-                            <h3>Minimal cities</h3>
+                            <h3>Lyfto build</h3>
                         </li>
                         <li class="slide | js-slide">
                             <img src="dist/img/portraits/05.jpg" crossorigin="anonymous" draggable="false">
-                            <h3>Incog nito</h3>
+                            <h3>Venom seven</h3>
                         </li>
                         <li class="slide | js-slide">
                             <img src="dist/img/portraits/06.jpg" crossorigin="anonymous" draggable="false">
-                            <h3>Green woods</h3>
+                            <h3>House rules</h3>
                         </li>
                     </ol>
                 </nav>
-                <div aria-hidden="true">
+                <div class="title-wrap" aria-hidden="true">
                     <span class="title | split">
-                        <span class="split__text | js-splited-text">URB</span>
+                        <span class="split__text | js-splited-text">Urban</span>
                     </span>
                     <span class="title | split">
-                        <span class="split__text | js-splited-text">AN</span>
-                    </span>
-                    <span class="title | split">
-                        <span class="split__text | js-splited-text">STY</span>
-                    </span>
-                    <span class="title | split">
-                        <span class="split__text | js-splited-text">LE</span>
+                        <span class="split__text | js-splited-text">jungle</span>
                     </span>
                 </div>
                 <canvas id="stage"></canvas>
-                <div class="slideshow__circles">
-                    <div class="circle"></div>
-                    <div class="circle"></div>
+                <div class="slideshow__deco">
+                    <div class="deco"></div>
+                    <div class="deco"></div>
                 </div>
             </div>
         </main>
-        <!--script src="https://tympanus.net/codrops/adpacks/demoad.js"></script-->
     </body>
 </html>

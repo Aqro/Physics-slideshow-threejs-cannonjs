@@ -2,11 +2,11 @@
 
 Learn how to create a physics-based 3D cloth with [Cannon.js](https://github.com/schteppe/cannon.js) and [Three.js](https://threejs.org/) and use simplex noise to create a wind effect. By [Arno Di Nunzio](https://twitter.com/aqro)
 
-![Physics-based 3D cloth with cannon.js and three.js](https://tympanus.net/codrops/wp-content/uploads/2020/01/codrops-cover-cloth-physics-three.jpg)
+![Physics-based 3D cloth with cannon.js and three.js](https://tympanus.net/codrops/wp-content/uploads/2020/02/3DCloth_featured.jpg)
 
 [Article on Codrops](https://tympanus.net/codrops/?p=46823)
 
-[Demo](http://tympanus.net/Development/.../)
+[Demo](http://tympanus.net/Tutorials/3DClothSlideshow/)
 
 ## Installation
 Run this command in the terminal
@@ -26,7 +26,7 @@ npm run watch
 
 ## Credits
 
-- Slider based on [Jesper Landberg's](https://twitter.com/Jesper_Landberg) [slider](https://codepen.io/ReGGae/pen/povjKxV)
+- Slideshow based on [Jesper Landberg's](https://twitter.com/Jesper_Landberg) [slider](https://codepen.io/ReGGae/pen/povjKxV)
 - [Three.js](https://threejs.org/)
 - [Cannon.js](https://github.com/schteppe/cannon.js)
 - [Simplex noise](https://www.npmjs.com/package/simplex-noise)

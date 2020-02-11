@@ -1,0 +1,29 @@
+
+/* Deco elements
+---------------------------------------------------------------------------------------------------- */
+
+
+.deco {
+    position: fixed;
+    z-index: -1;
+    transform: rotate(-30deg);
+
+    &:nth-child(1) {
+        top: 15%;
+        left: 53%;
+        width: 30vmax;
+        height: 30vmax;
+
+        background-color: var(--color-deco);
+    }
+
+    &:nth-child(2) {
+        top: 35%;
+        left: 14%;
+
+        width: 26vmax;
+        height: 26vmax;
+
+        border: 100px solid var(--color-deco);
+    }
+}
