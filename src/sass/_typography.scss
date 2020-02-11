@@ -17,6 +17,10 @@
     line-height: 0.9;
     color: var(--color-title);
     pointer-events: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 
