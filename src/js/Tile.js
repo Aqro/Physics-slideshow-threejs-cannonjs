@@ -39,17 +39,18 @@ export default class Tile extends O {
 
         this.add(this.mesh)
         this.scene.add(this)
+
+        this.bindEvents()
     }
 
     bindEvents() {
-        super.bindEvents()
-        document.addEventListener('rotateCam', this.onSquitch.bind(this))
+        document.addEventListener('rotateCam', this.onDistort.bind(this))
     }
 
     /* Handlers
     --------------------------------------------------------- */
 
-    onSquitch({ detail: { delta } }) {
+    onDistort({ detail: { delta } }) {
         const { width, height } = this.rect
         const sclX = clamp(1 - Math.abs(delta), 0.8, 1)
 
